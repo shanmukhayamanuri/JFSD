@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f8f5">
+  <meta name="description" content="Sign in to Morrow, a more human kind of social network.">
+  <title>Sign in | Morrow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202b27;
+      --muted: #777e78;
+      --paper: #f8f8f5;
+      --line: #e5e7e1;
+      --lime: #d5f36a;
+      --green: #314e3f;
+      --font-body: "DM Sans", sans-serif;
+      --font-display: "Manrope", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input { font: inherit; }
+
+    .page {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(440px, .96fr);
+      min-height: 100vh;
+      padding: 14px;
+      gap: 14px;
+    }
+
+    .story {
+      position: relative;
+      display: flex;
+      min-height: calc(100vh - 28px);
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: clamp(28px, 4vw, 58px);
+      border-radius: 8px;
+      color: #fff;
+      background: #435b4c url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1800&q=85") center 46% / cover no-repeat;
+      isolation: isolate;
+      animation: arrive .7s ease-out both;
+    }
+
+    .story::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: linear-gradient(180deg, rgb(15 28 21 / 28%) 0%, transparent 35%, rgb(15 28 21 / 64%) 100%);
+      content: "";
+    }
+
+    .wordmark {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 10px;
+      color: inherit;
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .mark {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--ink);
+      background: var(--lime);
+    }
+
+    .story-copy { max-width: 530px; padding-bottom: 5px; }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 18px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+      content: "";
+    }
+
+    .story h1 {
+      max-width: 510px;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(42px, 5.3vw, 76px);
+      font-weight: 600;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .story-note {
+      max-width: 340px;
+      margin: 20px 0 0;
+      color: rgb(255 255 255 / 84%);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .story-footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 36px;
+      color: rgb(255 255 255 / 90%);
+      font-size: 12px;
+    }
+
+    .avatar-stack { display: flex; padding-left: 4px; }
+
+    .avatar-stack img {
+      width: 27px;
+      height: 27px;
+      margin-left: -4px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .story-footer strong { color: #fff; font-weight: 700; }
+
+    .form-side {
+      display: grid;
+      min-height: calc(100vh - 28px);
+      grid-template-rows: auto 1fr auto;
+      padding: 28px clamp(24px, 6vw, 86px) 24px;
+      animation: arrive .7s .08s ease-out both;
+    }
+
+    .form-top { display: flex; justify-content: flex-end; align-items: center; }
+
+    .top-link {
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .top-link strong { margin-left: 4px; color: var(--ink); font-weight: 700; }
+    .top-link:hover strong, .forgot:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .login {
+      width: 100%;
+      max-width: 410px;
+      align-self: center;
+      justify-self: center;
+      padding: 48px 0 38px;
+    }
+
+    .login h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 3.5vw, 43px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .intro { margin: 10px 0 31px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    .google-button, .submit-button {
+      display: flex;
+      width: 100%;
+      min-height: 50px;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .google-button:hover { border-color: #bec4bb; background: #fbfcf8; }
+    .google-button:active, .submit-button:active { transform: translateY(1px); }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 23px 0;
+      color: #929891;
+      font-size: 11px;
+    }
+
+    .divider::before, .divider::after { height: 1px; flex: 1; background: var(--line); content: ""; }
+
+    .field { display: block; margin-bottom: 18px; }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #353d38;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .field input {
+      width: 100%;
+      height: 49px;
+      padding: 0 14px;
+      border: 1px solid #dfe2db;
+      border-radius: 4px;
+      outline: none;
+      color: var(--ink);
+      background: #fff;
+      font-size: 13px;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .field input::placeholder { color: #a1a69f; }
+
+    .field input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgb(49 78 63 / 12%);
+    }
+
+    .password-wrap { position: relative; }
+    .password-wrap input { padding-right: 54px; }
+
+    .reveal-button {
+      position: absolute;
+      top: 50%;
+      right: 7px;
+      display: grid;
+      width: 38px;
+      height: 38px;
+      transform: translateY(-50%);
+      place-items: center;
+      border: 0;
+      border-radius: 4px;
+      color: #737b74;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .reveal-button:hover { color: var(--ink); background: #f2f4ef; }
+    .reveal-button:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #91ad37; outline-offset: 3px; }
+
+    .form-options {
+      display: flex;
+      min-height: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 2px 0 24px;
+    }
+
+    .remember {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #656d66;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .remember input { width: 15px; height: 15px; margin: 0; accent-color: var(--green); }
+    .forgot { color: var(--green); font-size: 12px; font-weight: 700; text-decoration: none; }
+
+    .submit-button {
+      min-height: 52px;
+      border-color: var(--lime);
+      background: var(--lime);
+    }
+
+    .submit-button:hover { border-color: #c6e655; background: #c6e655; }
+
+    .status {
+      min-height: 18px;
+      margin: 11px 0 0;
+      color: #a04436;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .status[data-kind="success"] { color: var(--green); }
+
+    .form-footer {
+      display: flex;
+      justify-content: center;
+      gap: 19px;
+      color: #8a9089;
+      font-size: 11px;
+    }
+
+    .form-footer a { color: inherit; text-decoration: none; }
+    .form-footer a:hover { color: var(--ink); }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .page { grid-template-columns: minmax(0, .85fr) minmax(390px, 1.15fr); }
+      .story { padding: 32px; }
+      .story h1 { font-size: clamp(40px, 6vw, 58px); }
+      .form-side { padding-right: 38px; padding-left: 38px; }
+    }
+
+    @media (max-width: 680px) {
+      .page { display: block; padding: 0; }
+      .story {
+        min-height: 230px;
+        height: 31vh;
+        max-height: 310px;
+        padding: 24px;
+        border-radius: 0;
+        background-position: center 43%;
+      }
+      .wordmark { font-size: 19px; }
+      .mark { width: 27px; height: 27px; }
+      .story h1 { max-width: 420px; font-size: clamp(34px, 9vw, 48px); }
+      .story .eyebrow { margin-bottom: 10px; font-size: 10px; }
+      .story-note, .story-footer { display: none; }
+      .form-side { min-height: calc(100vh - 230px); padding: 19px 24px 18px; }
+      .login { max-width: 430px; padding: 38px 0 28px; }
+      .login h2 { font-size: 35px; }
+      .intro { margin-bottom: 26px; }
+    }
+
+    @media (max-width: 380px) {
+      .story { min-height: 205px; }
+      .form-side { min-height: calc(100vh - 205px); padding-right: 18px; padding-left: 18px; }
+      .login { padding-top: 28px; }
+      .form-footer { gap: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="story" aria-label="Welcome to Morrow">
+      <a class="wordmark" href="#home" aria-label="Morrow home">
+        <span class="mark" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M3 14.5V7.2c0-.7.8-1 1.3-.5l5.7 5.8 5.7-5.8c.5-.5 1.3-.2 1.3.5v7.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        morrow
+      </a>
+
+      <div class="story-copy">
+        <p class="eyebrow">A little more human</p>
+        <h1>Good things happen between the posts.</h1>
+        <p class="story-note">The small moments, the long catch-ups, the people who just get it. There’s room for all of it here.</p>
+        <div class="story-footer">
+          <span class="avatar-stack" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=72&h=72&q=80" alt="">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=72&h=72&q=80" alt="">
+            <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=72&h=72&q=80" alt="">
+          </span>
+          <span>A good place to be, with <strong>your people.</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-side" aria-labelledby="login-heading">
+      <div class="form-top">
+        <a class="top-link" href="#create-account">New to Morrow?<strong>Join us</strong></a>
+      </div>
+
+      <div class="login">
+        <h2 id="login-heading">Welcome back.</h2>
+        <p class="intro">Pick up right where your people are.</p>
+
+        <button class="google-button" id="google-signin" type="button">
+          <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11c-.5 2.5-1.9 4.7-4.1 6.1v5h6.6c3.9-3.6 6.1-8.8 6.1-14.8Z"/><path fill="#34A853" d="M24 44c5.6 0 10.3-1.9 13.7-5.1l-6.6-5c-1.8 1.2-4.1 2-7.1 2-5.4 0-10-3.6-11.6-8.5H5.6v5.2C9 39.4 16 44 24 44Z"/><path fill="#FBBC05" d="M12.4 27.4a12 12 0 0 1 0-7.7v-5.2H5.6a20 20 0 0 0 0 18.1l6.8-5.2Z"/><path fill="#EA4335" d="M24 11.2c3.1 0 5.9 1.1 8.1 3.2l6-6C34.4 4.8 29.6 3 24 3 16 3 9 7.6 5.6 14.5l6.8 5.2c1.6-4.9 6.2-8.5 11.6-8.5Z"/></svg>
+          Continue with Google
+        </button>
+
+        <div class="divider" aria-hidden="true">or with your email</div>
+
+        <form id="login-form" novalidate>
+          <label class="field">
+            <span class="field-label">Email address</span>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Password</span>
+            <span class="password-wrap">
+              <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required minlength="8">
+              <button class="reveal-button" id="reveal-password" type="button" aria-label="Show password" aria-pressed="false">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/></svg>
+              </button>
+            </span>
+          </label>
+
+          <div class="form-options">
+            <label class="remember"><input type="checkbox" name="remember"> Keep me signed in</label>
+            <a class="forgot" href="#reset-password">Forgot password?</a>
+          </div>
+
+          <button class="submit-button" type="submit">Sign in</button>
+          <p class="status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <footer class="form-footer">
+        <span>© 2026 Morrow</span>
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+        <a href="#help">Help</a>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    const passwordInput = document.querySelector("#password");
+    const revealButton = document.querySelector("#reveal-password");
+    const form = document.querySelector("#login-form");
+    const status = document.querySelector("#form-status");
+
+    revealButton.addEventListener("click", () => {
+      const showing = passwordInput.type === "password";
+      passwordInput.type = showing ? "text" : "password";
+      revealButton.setAttribute("aria-label", showing ? "Hide password" : "Show password");
+      revealButton.setAttribute("aria-pressed", String(showing));
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      status.dataset.kind = "error";
+
+      if (!form.reportValidity()) {
+        status.textContent = "Check your email and password, then try again.";
+        return;
+      }
+
+      status.dataset.kind = "success";
+      status.textContent = "Looks good. Connect this form to your sign-in service to continue.";
+    });
+
+    document.querySelector("#google-signin").addEventListener("click", () => {
+      status.dataset.kind = "error";
+      status.textContent = "Google sign-in needs to be connected to your authentication provider.";
+    });
+  </script>
+</body>
+</html>
